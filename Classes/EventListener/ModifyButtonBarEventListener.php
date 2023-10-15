@@ -1,41 +1,30 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Ayacoo\ClearCacheRecursive\Hooks;
+namespace Ayacoo\ClearCacheRecursive\EventListener;
 
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\Components\Buttons\LinkButton;
+use TYPO3\CMS\Backend\Template\Components\ModifyButtonBarEvent;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class ButtonBarHook
+class ModifyButtonBarEventListener
 {
-    /**
-     * Get buttons
-     *
-     * @param array $params
-     * @param ButtonBar $buttonBar
-     *
-     * @return array
-     * @throws RouteNotFoundException
-     */
-    public function getButtons(array $params, ButtonBar $buttonBar): array
+    public function __invoke(ModifyButtonBarEvent $event): void
     {
-        $buttons = $params['buttons'];
+        $buttons = $event->getButtons();
         $pageUid = (int)(GeneralUtility::_GET('id') ?? 0);
-        /** @var LinkButton $firstButton */
-        $firstButton = $buttons[ButtonBar::BUTTON_POSITION_RIGHT][1][0] ?? null;
-        if ($pageUid > 0 && !is_null($firstButton) && $firstButton->getClasses() === 't3js-clear-page-cache') {
-            $button = $this->makeCacheButton($buttonBar, $pageUid);
-            $buttons[ButtonBar::BUTTON_POSITION_RIGHT][10][] = $button;
+        if ($pageUid > 0) {
+            $button = $this->makeCacheButton($event->getButtonBar(), $pageUid);
+            $buttons[ButtonBar::BUTTON_POSITION_RIGHT][0][] = $button;
+            $event->setButtons($buttons);
         }
-        return $buttons;
     }
+
 
     /**
      * @param ButtonBar $buttonBar

@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Ayacoo\ClearCacheRecursive\Controller;
 
 
+use Ayacoo\ClearCacheRecursive\Database\QueryGenerator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
-use TYPO3\CMS\Core\Database\QueryGenerator;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Localization\LanguageService;
@@ -35,9 +35,6 @@ class BackendController
         $this->queryGenerator = GeneralUtility::makeInstance(QueryGenerator::class);
     }
 
-    /**
-     * @throws RouteNotFoundException
-     */
     public function clearCacheRecursive(ServerRequestInterface $request): ResponseInterface
     {
         $pageUid = (int)$request->getQueryParams()['uid'];

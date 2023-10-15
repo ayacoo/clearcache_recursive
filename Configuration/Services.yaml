@@ -1,0 +1,17 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: true
+
+  Ayacoo\ClearCacheRecursive\:
+    resource: '../Classes/*'
+    exclude:
+      - '../Classes/Domain/Model/*'
+      - '../Classes/Helper/*'
+
+
+  Ayacoo\ClearCacheRecursive\EventListener\ModifyButtonBarEventListener:
+    tags:
+      - name: event.listener
+        identifier: 'ayacoo/clear-cache-recursive/modify-button-bar'
