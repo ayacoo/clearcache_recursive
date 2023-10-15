@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="EXT:clearcache_recursive/Resources/Private/Language/locallang.xlf" date="2023-10-09T20:22:32Z" product-name="clearcache_recursive">
+		<header/>
+		<body>
+			<trans-unit id="clearcache.button.title" resname="clearcache.button.title">
+				<source>Clear cache for this page recursive</source>
+			</trans-unit>
+			<trans-unit id="clearcache.message.title" resname="clearcache.message.title">
+				<source>Clear cache for this page recursive</source>
+			</trans-unit>
+			<trans-unit id="clearcache.message.description" resname="clearcache.message.description">
+				<source>The cache for this and all subpages was cleared.</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
