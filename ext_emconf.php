@@ -7,10 +7,10 @@ $EM_CONF[$_EXTKEY] = [
     'author' => 'Guido Schmechel',
     'author_email' => 'info@ayacoo.de',
     'state' => 'stable',
-    'version' => '2.0.0',
+    'version' => '3.0.0',
     'constraints' => [
         'depends' => [
-            'typo3' => '12.4'
+            'typo3' => '13.0.0-13.4.99',
         ],
         'conflicts' => [
         ],
