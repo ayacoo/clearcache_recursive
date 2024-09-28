@@ -56,29 +56,27 @@ class BackendController
                     }
                 }
             }
+
+            $message = GeneralUtility::makeInstance(FlashMessage::class,
+                $message,
+                $title,
+                ContextualFeedbackSeverity::OK,
+                true
+            );
+
+            $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+            $messageQueue = $flashMessageService->getMessageQueueByIdentifier();
+            $messageQueue->addMessage($message);
         }
 
         $backendUriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
         $uriParameters = ['id' => $pageUid];
-        $editBookLink = $backendUriBuilder->buildUriFromRoute(
+        $returnLink = $backendUriBuilder->buildUriFromRoute(
             'web_layout',
             $uriParameters
         );
 
-        $severity = ContextualFeedbackSeverity::OK;
-
-        $message = GeneralUtility::makeInstance(FlashMessage::class,
-            $message,
-            $title,
-            $severity,
-            true
-        );
-
-        $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
-        $messageQueue = $flashMessageService->getMessageQueueByIdentifier();
-        $messageQueue->addMessage($message);
-
-        return new RedirectResponse($editBookLink);
+        return new RedirectResponse($returnLink);
     }
 
     /**
