@@ -2,7 +2,7 @@
 
 $EM_CONF[$_EXTKEY] = [
     'title' => 'ClearCache Recursive',
-    'description' => 'ClearCache Recursive',
+    'description' => 'Adds a button in the backend for editors to be able to delete the cache recursively.',
     'category' => 'plugin',
     'author' => 'Guido Schmechel',
     'author_email' => 'info@ayacoo.de',
