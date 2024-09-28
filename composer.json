@@ -1,6 +1,6 @@
 {
 	"name": "ayacoo/clearcache-recursive",
-	"description": "Extension zu Visualisierung von Handelshöfen",
+	"description": "Adds a button in the backend for editors to be able to delete the cache recursively.",
 	"license": "proprietary",
 	"type": "typo3-cms-extension",
 	"require": {
