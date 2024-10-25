@@ -7,8 +7,8 @@ use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\Components\Buttons\LinkButton;
 use TYPO3\CMS\Backend\Template\Components\ModifyButtonBarEvent;
-use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -16,10 +16,11 @@ class ModifyButtonBarEventListener
 {
     public function __invoke(ModifyButtonBarEvent $event): void
     {
+        $request = $GLOBALS['TYPO3_REQUEST'];
         $buttons = $event->getButtons();
-        $pageUid = (int)(GeneralUtility::_GET('id') ?? 0);
+        $pageUid = ($request->getQueryParams()['id'] ?? $request->getParsedBody()['id'] ?? 0);
         if ($pageUid > 0) {
-            $button = $this->makeCacheButton($event->getButtonBar(), $pageUid);
+            $button = $this->makeCacheButton($event->getButtonBar(), (int) $pageUid);
             $buttons[ButtonBar::BUTTON_POSITION_RIGHT][0][] = $button;
             $event->setButtons($buttons);
         }
@@ -39,7 +40,7 @@ class ModifyButtonBarEventListener
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
         $button = $buttonBar->makeLinkButton();
         $button->setIcon(
-            $iconFactory->getIcon('clearCacheRecursive', Icon::SIZE_SMALL)
+            $iconFactory->getIcon('clearCacheRecursive', IconSize::SMALL)
         );
         $button->setTitle($title);
 
