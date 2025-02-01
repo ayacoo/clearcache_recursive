@@ -1,11 +1,11 @@
 {
 	"name": "ayacoo/clearcache-recursive",
 	"description": "Adds a button in the backend for editors to be able to delete the cache recursively.",
-	"version": "3.0.0",
+	"version": "3.0.1",
 	"license": "proprietary",
 	"type": "typo3-cms-extension",
 	"require": {
-		"php": ">=8.2 < 8.4",
+		"php": ">=8.2 < 8.5",
 		"typo3/cms-core": "^13.4"
 	},
 	"autoload": {
