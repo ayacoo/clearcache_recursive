@@ -1,8 +1,11 @@
 
 <?php
+
+use Ayacoo\ClearCacheRecursive\Controller\BackendController;
+
 return [
     'clearCacheRecursive' => [
         'path' => '/clearcacherecursive',
-        'target' => \Ayacoo\ClearCacheRecursive\Controller\BackendController::class . '::clearCacheRecursive',
+        'target' => BackendController::class . '::clearCacheRecursive',
     ]
 ];

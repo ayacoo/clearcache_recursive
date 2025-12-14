@@ -9,9 +9,3 @@ services:
     exclude:
       - '../Classes/Domain/Model/*'
       - '../Classes/Helper/*'
-
-
-  Ayacoo\ClearCacheRecursive\EventListener\ModifyButtonBarEventListener:
-    tags:
-      - name: event.listener
-        identifier: 'ayacoo/clear-cache-recursive/modify-button-bar'
