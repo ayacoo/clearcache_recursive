@@ -20,14 +20,14 @@ class ModifyButtonBarEventListener
         protected UriBuilder $uriBuilder
     ) {}
 
-    #[AsEventListener]
+    #[AsEventListener(identifier: 'ayacoo/clear-cache-recursive/modify-button-bar')]
     public function __invoke(ModifyButtonBarEvent $event): void
     {
         $request = $GLOBALS['TYPO3_REQUEST'];
         $buttons = $event->getButtons();
         $pageUid = ($request->getQueryParams()['id'] ?? $request->getParsedBody()['id'] ?? 0);
         if ($pageUid > 0) {
-            $button = $this->makeCacheButton($pageUid);
+            $button = $this->makeCacheButton((int) $pageUid);
             $buttons[ButtonBar::BUTTON_POSITION_RIGHT][1][] = $button;
             $event->setButtons($buttons);
         }
