@@ -49,10 +49,10 @@ class BackendController
                 $permissionClause = $this->getBackendUserAuthentication()->getPagePermsClause(Permission::PAGE_SHOW);
                 $this->dataHandler->start([], []);
 
-                foreach ($pages as $pageUid) {
-                    $pageRow = BackendUtility::readPageAccess($pageUid, $permissionClause);
-                    if ($pageUid !== 0 && $this->getBackendUserAuthentication()->doesUserHaveAccess($pageRow, Permission::PAGE_SHOW)) {
-                        $this->dataHandler->clear_cacheCmd($pageUid);
+                foreach ($pages as $singlePageUid) {
+                    $pageRow = BackendUtility::readPageAccess($singlePageUid, $permissionClause);
+                    if ($singlePageUid !== 0 && $this->getBackendUserAuthentication()->doesUserHaveAccess($pageRow, Permission::PAGE_SHOW)) {
+                        $this->dataHandler->clear_cacheCmd($singlePageUid);
                     }
                 }
             }
