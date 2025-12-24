@@ -24,7 +24,7 @@ composer require ayacoo/clearcache-recursive
 
 | clearcache_recursive | TYPO3 | PHP       | Support / Development                |
 |----------------------|-------|-----------|--------------------------------------|
-| 3.x                  | 13.x  | 8.2 - 8.4 | features, bugfixes, security updates |
+| 3.x                  | 13.x  | 8.2 - 8.5 | features, bugfixes, security updates |
 | 2.x                  | 12.x  | 8.1 - 8.4 | bugfixes, security updates           |
 | 1.x                  | 11.x  | 7.4 - 8.0 | bugfixes, security updates           |
 
