@@ -38,9 +38,10 @@ class ModifyButtonBarEventListener
         $title = $this->getLanguageService()->sL('LLL:EXT:clearcache_recursive/Resources/Private/Language/locallang.xlf:clearcache.button.title');
 
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
+        $iconMarkup = $iconFactory->getIcon('clearCacheRecursive', IconSize::SMALL)->render('inline');
         $button = $buttonBar->makeLinkButton();
         $button->setIcon(
-            $iconFactory->getIcon('clearCacheRecursive', IconSize::SMALL)
+            $iconFactory->getIcon('clearCacheRecursive', IconSize::SMALL)->setMarkup($iconMarkup)
         );
         $button->setTitle($title);
 
