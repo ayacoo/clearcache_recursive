@@ -4,6 +4,7 @@ namespace Ayacoo\ClearCacheRecursive\Backend\ContextMenu;
 
 
 use TYPO3\CMS\Backend\ContextMenu\ItemProviders\AbstractProvider;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 
 class ClearCacheItemProvider extends AbstractProvider
 {
@@ -85,6 +86,18 @@ class ClearCacheItemProvider extends AbstractProvider
      */
     protected function canRender(string $itemName, string $type): bool
     {
+        $backendUser = $this->getBackendUserAuthentication();
+        if ($itemName === 'clearCacheRecursive') {
+            return $backendUser->isAdmin() || (bool)($backendUser->getTSConfig()['options.']['clearCache.']['subpages'] ?? false);
+        }
         return true;
+    }
+
+    /**
+     * @return BackendUserAuthentication
+     */
+    protected function getBackendUserAuthentication(): BackendUserAuthentication
+    {
+        return $GLOBALS['BE_USER'];
     }
 }

@@ -7,6 +7,7 @@ use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\Components\Buttons\LinkButton;
 use TYPO3\CMS\Backend\Template\Components\ModifyButtonBarEvent;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Localization\LanguageService;
@@ -16,6 +17,10 @@ class ModifyButtonBarEventListener
 {
     public function __invoke(ModifyButtonBarEvent $event): void
     {
+        if (!$this->isSubpagesClearCacheEnabled()) {
+            return;
+        }
+
         $request = $GLOBALS['TYPO3_REQUEST'];
         $buttons = $event->getButtons();
         $pageUid = ($request->getQueryParams()['id'] ?? $request->getParsedBody()['id'] ?? 0);
@@ -53,6 +58,22 @@ class ModifyButtonBarEventListener
         $button->setHref($uri);
 
         return $button;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isSubpagesClearCacheEnabled(): bool
+    {
+        return $this->getBackendUser()->isAdmin() || ($this->getBackendUser()->getTSConfig()['options.']['clearCache.']['subpages'] ?? false);
+    }
+
+    /**
+     * @return BackendUserAuthentication
+     */
+    protected function getBackendUser(): BackendUserAuthentication
+    {
+        return $GLOBALS['BE_USER'];
     }
 
     /**

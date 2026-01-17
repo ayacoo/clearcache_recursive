@@ -38,6 +38,11 @@ class BackendController
 
     public function clearCacheRecursive(ServerRequestInterface $request): ResponseInterface
     {
+        $backendUser = $this->getBackendUser();
+        if (!$backendUser->isAdmin() && !($backendUser->getTSConfig()['options.']['clearCache.']['subpages'] ?? false)) {
+            return new JsonResponse(['success' => false, 'error' => 'Permission denied'], 403);
+        }
+
         $pageUid = (int)($request->getQueryParams()['uid'] ?? $request->getParsedBody()['uid'] ?? 0);
         $ajaxCall = (int)($request->getQueryParams()['ajax'] ?? $request->getParsedBody()['ajax'] ?? 0);
 
@@ -45,12 +50,12 @@ class BackendController
             $pageUidList = $this->queryGenerator->getTreeList($pageUid, 99);
             $pages = GeneralUtility::intExplode(',', $pageUidList, true) ?? [];
             if (!empty($pages)) {
-                $permissionClause = $this->getBackendUserAuthentication()->getPagePermsClause(Permission::PAGE_SHOW);
+                $permissionClause = $this->getBackendUser()->getPagePermsClause(Permission::PAGE_SHOW);
                 $this->dataHandler->start([], []);
 
                 foreach ($pages as $singlePageUid) {
                     $pageRow = BackendUtility::readPageAccess($singlePageUid, $permissionClause);
-                    if ($singlePageUid !== 0 && $this->getBackendUserAuthentication()->doesUserHaveAccess($pageRow, Permission::PAGE_SHOW)) {
+                    if ($singlePageUid !== 0 && $this->getBackendUser()->doesUserHaveAccess($pageRow, Permission::PAGE_SHOW)) {
                         $this->dataHandler->clear_cacheCmd($singlePageUid);
                     }
                 }
@@ -99,7 +104,7 @@ class BackendController
     /**
      * @return BackendUserAuthentication
      */
-    protected function getBackendUserAuthentication(): BackendUserAuthentication
+    protected function getBackendUser(): BackendUserAuthentication
     {
         return $GLOBALS['BE_USER'];
     }
