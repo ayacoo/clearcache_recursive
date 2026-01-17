@@ -26,7 +26,10 @@ class ModifyButtonBarEventListener
         $pageUid = ($request->getQueryParams()['id'] ?? $request->getParsedBody()['id'] ?? 0);
         if ($pageUid > 0) {
             $button = $this->makeCacheButton($event->getButtonBar(), (int) $pageUid);
-            $buttons[ButtonBar::BUTTON_POSITION_RIGHT][0][] = $button;
+            if (!isset($buttons[ButtonBar::BUTTON_POSITION_RIGHT][1])) {
+                $buttons[ButtonBar::BUTTON_POSITION_RIGHT][1] = [];
+            }
+            array_splice($buttons[ButtonBar::BUTTON_POSITION_RIGHT][1], 1, 0, [$button]);
             $event->setButtons($buttons);
         }
     }
