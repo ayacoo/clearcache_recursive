@@ -18,9 +18,22 @@ Run the following command within your [Composer][1] based TYPO3 project:
 composer require ayacoo/clearcache-recursive
 ```
 
-## 3 Administration corner
+## 3 Configuration
 
-### 3.1 Versions and support
+### 3.1 UserTsConfig
+
+The visibility of the "Recursive Clear Cache" button in the button bar and the entry in the context menu can be controlled via UserTsConfig.
+By default, the function is only available to **administrators**.
+
+To enable the function for non-admin users, add the following line to the UserTsConfig of the user or group:
+
+```typoscript
+options.clearCache.subpages = 1
+```
+
+## 4 Administration corner
+
+### 4.1 Versions and support
 
 | clearcache_recursive | TYPO3 | PHP       | Support / Development                |
 |----------------------|-------|-----------|--------------------------------------|
@@ -28,7 +41,7 @@ composer require ayacoo/clearcache-recursive
 | 2.x                  | 12.x  | 8.1 - 8.4 | bugfixes, security updates           |
 | 1.x                  | 11.x  | 7.4 - 8.0 | bugfixes, security updates           |
 
-### 3.2 Release Management
+### 4.2 Release Management
 
 clearcache_recursive uses [**semantic versioning**][2], which means, that
 
@@ -39,7 +52,7 @@ clearcache_recursive uses [**semantic versioning**][2], which means, that
 * and **major updates** (e.g. 1.0.0 => 2.0.0) breaking changes which can be
   refactorings, features or bugfixes.
 
-### 3.3 Contribution
+### 4.3 Contribution
 
 **Pull Requests** are gladly welcome! Nevertheless please don't forget to add an
 issue and connect it to your pull requests. This
@@ -49,7 +62,7 @@ is very helpful to understand what kind of issue the **PR** is going to solve.
 feedback how to reproduce the issue. We're going
 to accept only bugfixes if we can reproduce the issue.
 
-## 4 Thanks / Notices
+## 5 Thanks / Notices
 
 Special thanks to Georg Ringer and his [news][3] extension. A good template to
 build a TYPO3 extension. Here, for example, the structure of README.md is used.
@@ -60,7 +73,7 @@ build a TYPO3 extension. Here, for example, the structure of README.md is used.
 
 [3]: https://github.com/georgringer/news
 
-## 5 Support
+## 6 Support
 
 If you are happy with the extension and would like to support it in any way, I
 would appreciate the support of social institutions.

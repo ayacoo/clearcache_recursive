@@ -15,3 +15,7 @@ services:
     tags:
       - name: event.listener
         identifier: 'ayacoo/clear-cache-recursive/modify-button-bar'
+
+  Ayacoo\ClearCacheRecursive\Backend\ContextMenu\ClearCacheItemProvider:
+    tags:
+      - name: backend.contextmenu.itemprovider
