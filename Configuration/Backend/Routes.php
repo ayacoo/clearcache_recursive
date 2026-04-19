@@ -1,4 +1,3 @@
-
 <?php
 
 use Ayacoo\ClearCacheRecursive\Controller\BackendController;
