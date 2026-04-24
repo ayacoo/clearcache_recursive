@@ -37,9 +37,10 @@ options.clearCache.subpages = 1
 
 | clearcache_recursive | TYPO3 | PHP       | Support / Development                |
 |----------------------|-------|-----------|--------------------------------------|
+| 4.x                  | 14.x  | 8.2 - 8.5 | features, bugfixes, security updates |
 | 3.x                  | 13.x  | 8.2 - 8.5 | features, bugfixes, security updates |
 | 2.x                  | 12.x  | 8.1 - 8.4 | bugfixes, security updates           |
-| 1.x                  | 11.x  | 7.4 - 8.0 | bugfixes, security updates           |
+| 1.x                  | 11.x  | 7.4 - 8.0 | security updates                     |
 
 ### 4.2 Release Management
 

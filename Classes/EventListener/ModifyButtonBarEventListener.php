@@ -2,19 +2,26 @@
 
 namespace Ayacoo\ClearCacheRecursive\EventListener;
 
-use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\Components\Buttons\LinkButton;
+use TYPO3\CMS\Backend\Template\Components\ComponentFactory;
 use TYPO3\CMS\Backend\Template\Components\ModifyButtonBarEvent;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Localization\LanguageService;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ModifyButtonBarEventListener
 {
+    public function __construct(
+        protected ComponentFactory $componentFactory,
+        protected IconFactory $iconFactory,
+        protected UriBuilder $uriBuilder
+    ) {}
+
+    #[AsEventListener(identifier: 'ayacoo/clear-cache-recursive/modify-button-bar')]
     public function __invoke(ModifyButtonBarEvent $event): void
     {
         if (!$this->isSubpagesClearCacheEnabled()) {
@@ -25,7 +32,7 @@ class ModifyButtonBarEventListener
         $buttons = $event->getButtons();
         $pageUid = ($request->getQueryParams()['id'] ?? $request->getParsedBody()['id'] ?? 0);
         if ($pageUid > 0) {
-            $button = $this->makeCacheButton($event->getButtonBar(), (int) $pageUid);
+            $button = $this->makeCacheButton((int) $pageUid);
             if (!isset($buttons[ButtonBar::BUTTON_POSITION_RIGHT][1])) {
                 $buttons[ButtonBar::BUTTON_POSITION_RIGHT][1] = [];
             }
@@ -34,27 +41,18 @@ class ModifyButtonBarEventListener
         }
     }
 
-
-    /**
-     * @param ButtonBar $buttonBar
-     * @param int $pageUid
-     * @return LinkButton
-     * @throws RouteNotFoundException
-     */
-    protected function makeCacheButton(ButtonBar $buttonBar, int $pageUid): LinkButton
+    protected function makeCacheButton(int $pageUid): LinkButton
     {
-        $title = $this->getLanguageService()->sL('LLL:EXT:clearcache_recursive/Resources/Private/Language/locallang.xlf:clearcache.button.title');
+        $title = $this->getLanguageService()->sL('clearcache_recursive.messages:clearcache.button.title');
 
-        $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
-        $iconMarkup = $iconFactory->getIcon('clearCacheRecursive', IconSize::SMALL)->render('inline');
-        $button = $buttonBar->makeLinkButton();
+        $button = $this->componentFactory->createLinkButton();
+        $iconMarkup = $this->iconFactory->getIcon('clearCacheRecursive', IconSize::SMALL)->render('inline');
         $button->setIcon(
-            $iconFactory->getIcon('clearCacheRecursive', IconSize::SMALL)->setMarkup($iconMarkup)
+            $this->iconFactory->getIcon('clearCacheRecursive', IconSize::SMALL)->setMarkup($iconMarkup)
         );
         $button->setTitle($title);
 
-        $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
-        $uri = $uriBuilder->buildUriFromRoute(
+        $uri = $this->uriBuilder->buildUriFromRoute(
             'clearCacheRecursive',
             ['uid' => $pageUid]
         );
@@ -79,11 +77,6 @@ class ModifyButtonBarEventListener
         return $GLOBALS['BE_USER'];
     }
 
-    /**
-     * Returns LanguageService
-     *
-     * @return LanguageService
-     */
     protected function getLanguageService(): LanguageService
     {
         return $GLOBALS['LANG'];

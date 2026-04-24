@@ -23,18 +23,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class BackendController
 {
-    protected DataHandler $dataHandler;
-
-    private QueryGenerator $queryGenerator;
-
-    /**
-     * ClearPageCacheController constructor.
-     */
-    public function __construct()
-    {
-        $this->dataHandler = GeneralUtility::makeInstance(DataHandler::class);
-        $this->queryGenerator = GeneralUtility::makeInstance(QueryGenerator::class);
-    }
+    public function __construct(
+        protected DataHandler $dataHandler,
+        protected QueryGenerator $queryGenerator
+    )
+    { }
 
     public function clearCacheRecursive(ServerRequestInterface $request): ResponseInterface
     {
@@ -47,6 +40,9 @@ class BackendController
         $ajaxCall = (int)($request->getQueryParams()['ajax'] ?? $request->getParsedBody()['ajax'] ?? 0);
 
         if ($pageUid > 0) {
+            $title = $this->getLanguageService()->sL('clearcache_recursive.messages:clearcache.message.title');
+            $message = $this->getLanguageService()->sL('clearcache_recursive.messages:clearcache.message.description');
+
             $pageUidList = $this->queryGenerator->getTreeList($pageUid, 99);
             $pages = GeneralUtility::intExplode(',', $pageUidList, true) ?? [];
             if (!empty($pages)) {
@@ -101,19 +97,11 @@ class BackendController
         return new RedirectResponse($returnLink);
     }
 
-    /**
-     * @return BackendUserAuthentication
-     */
     protected function getBackendUser(): BackendUserAuthentication
     {
         return $GLOBALS['BE_USER'];
     }
 
-    /**
-     * Returns LanguageService
-     *
-     * @return LanguageService
-     */
     protected function getLanguageService(): LanguageService
     {
         return $GLOBALS['LANG'];
